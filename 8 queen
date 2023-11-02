@@ -1,0 +1,57 @@
+def is_safe(board, row, col):
+    # Check the column
+    for i in range(row):
+        if board[i][col] == 1:
+            return False
+
+    # Check the upper left diagonal
+    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
+        if board[i][j] == 1:
+            return False
+
+    # Check the upper right diagonal
+    for i, j in zip(range(row, -1, -1), range(col, len(board))):
+        if board[i][j] == 1:
+            return False
+
+    return True
+
+def solve_n_queens(board, row):
+    if row == len(board):
+        return [board[:]]
+
+    solutions = []
+    for col in range(len(board)):
+        if is_safe(board, row, col):
+            board[row][col] = 1
+            solutions += solve_n_queens(board, row + 1)
+            board[row][col] = 0
+
+    return solutions
+
+def print_solution(board):
+    for row in board:
+        for cell in row:
+            if cell == 1:
+                print("Q", end=" ")
+            else:
+                print(".", end=" ")
+        print()
+
+def main():
+    n = int(input("Enter the size of the chessboard (N-Queens): "))
+    board = [[0] * n for _ in range(n)]
+
+    solutions = solve_n_queens(board, 0)
+
+    if solutions:
+        print(f"Found {len(solutions)} solution(s) for {n}-Queens:")
+        for i, solution in enumerate(solutions):
+            print(f"Solution {i + 1}:")
+            print_solution(solution)
+            print()
+    else:
+        print(f"No solutions found for {n}-Queens.")
+
+if __name__ == "__main__":
+    main()
