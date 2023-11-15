@@ -1,4 +1,4 @@
-emale(indu). %clauses
+male(indu). %clauses
 female(lie).
 
 male(ramu).
